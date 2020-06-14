@@ -1488,7 +1488,7 @@ heroe = sprites.create(img`
 . . . f f f f f f f f . . . . . 
 . . . . . f f . . f f . . . . . 
 `, SpriteKind.Player)
-heroe.say("!vamos¡")
+heroe.say("seguimos¡")
 controller.moveSprite(heroe)
 scene.cameraFollowSprite(heroe)
 inicioNivel()
