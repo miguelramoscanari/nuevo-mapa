@@ -156,6 +156,25 @@ e e e e . . e e e e e e e e e .
 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
 `
+    //% blockIdentity=images._tile
+    export const tile8 = img`
+. . 9 . 9 9 9 . . . . 9 9 9 9 . 
+. 9 9 . . . 9 9 . . 9 9 . 9 9 . 
+. 1 1 1 1 1 . . . 1 1 1 1 1 . . 
+. 1 1 1 1 1 . . . 1 1 1 1 1 . . 
+. 2 2 2 2 2 . . . 2 2 2 2 2 . . 
+. 2 2 2 2 2 2 . . 2 2 2 2 2 . . 
+. 2 2 2 2 2 2 . . 2 2 2 2 2 . . 
+. . 2 2 2 2 2 . . 2 2 2 2 2 . . 
+. . 2 2 2 2 2 2 2 2 2 2 2 . . . 
+. . . 2 2 2 2 2 2 2 2 2 2 . . . 
+. . . 2 2 2 2 2 2 2 2 2 . . . . 
+. . . . . 2 2 2 2 2 2 . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`
 }
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
@@ -553,6 +572,12 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.meta, function (sprite, otherSpr
     nivel_actual += 1
     inicioNivel()
 })
+scene.onOverlapTile(SpriteKind.Player, myTiles.tile8, function (sprite, location) {
+    tiles.setTileAt(location, myTiles.tile0)
+    for (let value of sprites.allOfKind(SpriteKind.Food)) {
+        value.follow(heroe)
+    }
+})
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonOrangeDepressed, function (sprite, location) {
     tiles.setTileAt(location, myTiles.tile5)
     for (let value of tiles.getTilesByType(sprites.builtin.oceanSand0)) {
@@ -564,7 +589,7 @@ function inicioNivel () {
     heroe.setPosition(28, 7)
     if (nivel_actual == 0) {
         tiles.setTilemap(tiles.createTilemap(
-            hex`1000100003000003030303030303030303030303030000000000000503050500000000030300000000000000030000000000070303030303030300000303030303000003030700000000000003050000000000030305000000000000000000000000050303030303030300000000000303030303030505050000000000000000000000030300000000000000030000000000050303030000000303000300000703030303030700000000030303030000000000030300000000000505050300000000050303000003070000000003000000030303030000030000000000000000000007030305000303050500000000000000000003030303030303030303030303030006`,
+            hex`10001000030000030303030303030303030303030300000000000005030505000000000303000000000000000300000000000703030303030303000003030303030000030307000000000000030500000000000303050000000000000000000000000503030303030303000000000003030303030305050500000000000000000000000303000000000000000300000000000503030300000003030003000007030303030307000000000303030300000000000303000000000005050503000000000503030000030700000000030000000303030300000300000000000000000000070303050c0303050500000000000000000003030303030303030303030303030006`,
             img`
 2 . . 2 2 2 2 2 2 2 2 2 2 2 2 2 
 2 . . . . . . . 2 . . . . . . 2 
@@ -583,7 +608,7 @@ function inicioNivel () {
 2 . . 2 2 . . . . . . . . . . . 
 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . 
 `,
-            [myTiles.tile0,sprites.builtin.forestTiles21,sprites.castle.saplingOak,sprites.builtin.forestTiles0,sprites.castle.tilePath5,myTiles.tile1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5,myTiles.tile6,myTiles.tile7],
+            [myTiles.tile0,sprites.builtin.forestTiles21,sprites.castle.saplingOak,sprites.builtin.forestTiles0,sprites.castle.tilePath5,myTiles.tile1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5,myTiles.tile6,myTiles.tile7,myTiles.tile8],
             TileScale.Sixteen
         ))
         scene.setBackgroundImage(img`
@@ -710,7 +735,7 @@ function inicioNivel () {
 `)
     } else if (nivel_actual == 1) {
         tiles.setTilemap(tiles.createTilemap(
-            hex`100010000000000404040904040409040409040404000000000000000000000000030104040000000000000000000000000000040404040404040404040404040000000b040001040400000003000000000000040a0000000000000000000001040400040403000000000000040404040404000b040000040401000000000000010400040a000001040404040401000000000104040400000300000000040400000404040401000000000000000000000000000b04040000000404040404040404040404040300000001040003000104010101040a0000040000000000000000000000040401000001000000000401000303030d04040404040404040404040404040d02`,
+            hex`100010000000000404040904040409040409040404000000000000000000000000030104040000000000000000000000000000040404040404040404040404040000000b040001040400000003000000000000040a0000000000000000000001040400040403000000000000040404040404000b040000040401000000000000010400040a000001040404040401000000000104040400000300000000040400000404040401000000000000000000000000110b04040000000404040404040404040404040300000001040003000104010101040a0000040000000000000000000000040401000001000000000401000303030d04040404040404040404040404040d02`,
             img`
 . . . 2 2 2 2 2 2 2 2 2 2 2 2 2 
 2 . . . . . . . . . . . . . . 2 
@@ -729,7 +754,7 @@ function inicioNivel () {
 2 . . . . . . . . 2 . . . . . . 
 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . 
 `,
-            [myTiles.tile0,myTiles.tile1,myTiles.tile2,myTiles.tile3,sprites.dungeon.floorDark0,sprites.builtin.oceanSand0,sprites.builtin.forestTiles28,sprites.builtin.forestTiles23,sprites.builtin.forestTiles18,sprites.dungeon.purpleOuterNorth2,sprites.dungeon.purpleOuterWest2,sprites.dungeon.purpleOuterEast2,myTiles.tile4,sprites.dungeon.darkGroundSouthWest1,myTiles.tile5,myTiles.tile6,myTiles.tile7],
+            [myTiles.tile0,myTiles.tile1,myTiles.tile2,myTiles.tile3,sprites.dungeon.floorDark0,sprites.builtin.oceanSand0,sprites.builtin.forestTiles28,sprites.builtin.forestTiles23,sprites.builtin.forestTiles18,sprites.dungeon.purpleOuterNorth2,sprites.dungeon.purpleOuterWest2,sprites.dungeon.purpleOuterEast2,myTiles.tile4,sprites.dungeon.darkGroundSouthWest1,myTiles.tile5,myTiles.tile6,myTiles.tile7,myTiles.tile8],
             TileScale.Sixteen
         ))
         scene.setBackgroundImage(img`
@@ -856,7 +881,7 @@ b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b 
 `)
     } else if (nivel_actual == 2) {
         tiles.setTilemap(tiles.createTilemap(
-            hex`100010000f00000f0f0f0f0f0f0f0f0f0f0f0f0f0f00000f0f0f0f0f0f0101010101010f0f00000f0f0f0f0f0f0101010101010f0f0000000f0f0f0f0f0103010101010f0f0f00000000000000000f0f0f0f0f0f0f0f00000000000000000303030303030f0f00000000000000000303030303000f0f00000000000000000303030303000f0f0f0f0f0f0f0f0f0f0f0f030303000f0f0f0f0f0f0f0f0f0f0f0f030303000f0f0f0f0f0f0f0f0f0f0f0f010101010f0f0f0f0f0f0f0f0f0f0f0f01010101020101010101010101010101010101010f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f`,
+            hex`100010000f00000f0f0f0f0f0f0f0f0f0f0f0f0f0f00000f0f0f0f0f0f0101010101010f0f00000f0f0f0f0f0f0101010101010f0f0000000f0f0f0f0f0103010101010f0f0f00000000000000000f0f0f0f0f0f0f0f00000000000000000303030303030f0f00000000000000000303030303000f0f00000000000000000303030303000f0f0f0f0f0f0f0f0f0f0f0f030303000f0f0f0f0f0f0f0f0f0f0f0f030303000f0f0f0f0f0f0f0f0f0f0f0f010101010f0f0f0f0f0f0f0f0f0f0f0f01010101020101010101010101010101010101120f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f`,
             img`
 2 . . 2 2 2 2 2 2 2 2 2 2 2 2 2 
 2 . . 2 2 2 2 2 2 . . . . . . 2 
@@ -875,7 +900,7 @@ b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b 
 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
 `,
-            [myTiles.tile0,myTiles.tile1,myTiles.tile2,myTiles.tile3,sprites.dungeon.floorDark0,sprites.builtin.oceanSand0,sprites.builtin.forestTiles28,sprites.builtin.forestTiles23,sprites.builtin.forestTiles18,sprites.dungeon.purpleOuterNorth2,sprites.dungeon.purpleOuterWest2,sprites.dungeon.purpleOuterEast2,myTiles.tile4,sprites.dungeon.darkGroundSouthWest1,myTiles.tile5,sprites.dungeon.floorLight0,myTiles.tile6,myTiles.tile7],
+            [myTiles.tile0,myTiles.tile1,myTiles.tile2,myTiles.tile3,sprites.dungeon.floorDark0,sprites.builtin.oceanSand0,sprites.builtin.forestTiles28,sprites.builtin.forestTiles23,sprites.builtin.forestTiles18,sprites.dungeon.purpleOuterNorth2,sprites.dungeon.purpleOuterWest2,sprites.dungeon.purpleOuterEast2,myTiles.tile4,sprites.dungeon.darkGroundSouthWest1,myTiles.tile5,sprites.dungeon.floorLight0,myTiles.tile6,myTiles.tile7,myTiles.tile8],
             TileScale.Sixteen
         ))
         scene.setBackgroundImage(img`
@@ -1002,7 +1027,7 @@ b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b 
 `)
     } else if (nivel_actual == 3) {
         tiles.setTilemap(tiles.createTilemap(
-            hex`1000100012000000001212121212121212121212120000000012121212121212121212121200000000000012121212121212121212000000000000000012121212121212121200000000000000000000121212121212121200000000000000000012121212121212001211111111111111111212121212000012111111111111111112121212120012121211111111111111121212120000121212111103030012121212121200121203030303030300120101121212001212000000000303031212011212120000000000000303030300000101121212121212121203030303000001011212121212121212121200000000010112121212121212121212121200000002`,
+            hex`1000100012000000001212121212121212121212120000000012121212121212121212121200000000000012121212121212121212000000000000000012121212121212121200000000000000000000121212121212121200000000000000000012121212121212001211111111111111111212121212000012111111111111111112121212120012121211111111111111121212120000121212111103030012121212121200121203030303030300120101121212001212000000000303031212011212120000000000000303030300000101121212121212121203030303000001011212121212121212121200130000010112121212121212121212121200000002`,
             img`
 2 . . . . 2 2 2 2 2 2 2 2 2 2 2 
 2 . . . . 2 2 2 2 2 2 2 2 2 2 2 
@@ -1021,12 +1046,12 @@ b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b 
 2 2 2 2 2 2 2 2 2 2 . . . . . . 
 2 2 2 2 2 2 2 2 2 2 2 2 . . . . 
 `,
-            [myTiles.tile0,myTiles.tile1,myTiles.tile2,myTiles.tile3,sprites.dungeon.floorDark0,sprites.builtin.oceanSand0,sprites.builtin.forestTiles28,sprites.builtin.forestTiles23,sprites.builtin.forestTiles18,sprites.dungeon.purpleOuterNorth2,sprites.dungeon.purpleOuterWest2,sprites.dungeon.purpleOuterEast2,myTiles.tile4,sprites.dungeon.darkGroundSouthWest1,myTiles.tile5,sprites.dungeon.floorLight0,myTiles.tile6,myTiles.tile7,sprites.dungeon.collectibleInsignia],
+            [myTiles.tile0,myTiles.tile1,myTiles.tile2,myTiles.tile3,sprites.dungeon.floorDark0,sprites.builtin.oceanSand0,sprites.builtin.forestTiles28,sprites.builtin.forestTiles23,sprites.builtin.forestTiles18,sprites.dungeon.purpleOuterNorth2,sprites.dungeon.purpleOuterWest2,sprites.dungeon.purpleOuterEast2,myTiles.tile4,sprites.dungeon.darkGroundSouthWest1,myTiles.tile5,sprites.dungeon.floorLight0,myTiles.tile6,myTiles.tile7,sprites.dungeon.collectibleInsignia,myTiles.tile8],
             TileScale.Sixteen
         ))
     } else if (nivel_actual == 4) {
         tiles.setTilemap(tiles.createTilemap(
-            hex`1400100016000000000000001601010303000000000000001600000000000000160101030300000000000000160101010000030303161616160000000000000016010101000003030303161616160000000000001601010100000303030300000000001a1a1a1a1a1916161919191916030300000000001a1b0000001919191919191919000000000000001a000000001919191919191919000000000000001a1a1a1a0019191919191919191919191900000000000000001919191919191919010101021900000000000000191919191919190101010101011900000000000019191919190101010101010101011900000000001919191901010101010101010119000000000000191919050501191919191919190300000000000019190505050519030303030303030300000000001900000000000303030303030303030000000000`,
+            hex`1400100016000000000000001601010303000000000000001600000000000000160101030300000000000000160101010000030303161616160000000000000016010101000003030303161616160000000000001601010100000303030300000000001a1a1a1a1a1916161919191916030300000000001a1b0000001919191919191919000000000000001a000000001919191919191919000000000000001a1a1a1a0019191919191919191919191900000000000000001919191919191919010101021900000000000000191919191919190101010101011900000000000019191919190101010101010101011900000000001919191901010101010101010119000000000000191919050520191919191919190300000000000019190505050519030303030303030300000000001900000000000303030303030303030000000000`,
             img`
 2 . . . . . . . 2 . . . . . . . . . . . 
 2 . . . . . . . 2 . . . . . . . . . . . 
@@ -1045,7 +1070,7 @@ b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b 
 2 2 2 2 2 2 2 . . . . . . . . . . . . . 
 2 . . . . . . . . . . . . . . . . . . . 
 `,
-            [myTiles.tile0,myTiles.tile1,myTiles.tile2,myTiles.tile3,sprites.dungeon.floorDark0,sprites.builtin.oceanSand0,sprites.builtin.forestTiles28,sprites.builtin.forestTiles23,sprites.builtin.forestTiles18,sprites.dungeon.purpleOuterNorth2,sprites.dungeon.purpleOuterWest2,sprites.dungeon.purpleOuterEast2,myTiles.tile4,sprites.dungeon.darkGroundSouthWest1,sprites.dungeon.greenOuterNorthWest,sprites.dungeon.greenOuterWest0,sprites.dungeon.greenOuterSouthEast,sprites.dungeon.greenOuterSouth0,sprites.dungeon.greenInnerSouthEast,sprites.dungeon.greenInnerNorthWest,sprites.dungeon.greenInnerSouthWest,sprites.dungeon.greenOuterNorth2,sprites.builtin.coral2,sprites.builtin.oceanDepths0,sprites.builtin.oceanDepths9,sprites.builtin.coral5,sprites.builtin.coral1,sprites.dungeon.buttonOrangeDepressed,sprites.dungeon.hazardSpike,myTiles.tile5,myTiles.tile6,myTiles.tile7],
+            [myTiles.tile0,myTiles.tile1,myTiles.tile2,myTiles.tile3,sprites.dungeon.floorDark0,sprites.builtin.oceanSand0,sprites.builtin.forestTiles28,sprites.builtin.forestTiles23,sprites.builtin.forestTiles18,sprites.dungeon.purpleOuterNorth2,sprites.dungeon.purpleOuterWest2,sprites.dungeon.purpleOuterEast2,myTiles.tile4,sprites.dungeon.darkGroundSouthWest1,sprites.dungeon.greenOuterNorthWest,sprites.dungeon.greenOuterWest0,sprites.dungeon.greenOuterSouthEast,sprites.dungeon.greenOuterSouth0,sprites.dungeon.greenInnerSouthEast,sprites.dungeon.greenInnerNorthWest,sprites.dungeon.greenInnerSouthWest,sprites.dungeon.greenOuterNorth2,sprites.builtin.coral2,sprites.builtin.oceanDepths0,sprites.builtin.oceanDepths9,sprites.builtin.coral5,sprites.builtin.coral1,sprites.dungeon.buttonOrangeDepressed,sprites.dungeon.hazardSpike,myTiles.tile5,myTiles.tile6,myTiles.tile7,myTiles.tile8],
             TileScale.Sixteen
         ))
         scene.setBackgroundImage(img`
@@ -1218,11 +1243,6 @@ f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f 
 `, SpriteKind.Enemy)
         tiles.placeOnTile(fantasma, value4)
         tiles.setTileAt(value4, myTiles.tile0)
-        if (Math.percentChance(50)) {
-            fantasma.ax = Math.randomRange(20, 10)
-        } else {
-            fantasma.vx = Math.randomRange(-20, -10)
-        }
     }
     for (let value5 of tiles.getTilesByType(myTiles.tile2)) {
         bandera = sprites.create(img`
@@ -1449,7 +1469,7 @@ let gerra: Sprite = null
 let heroe: Sprite = null
 let nivel_actual = 0
 inicio()
-nivel_actual = 0
+nivel_actual = 3
 heroe = sprites.create(img`
 . . . . . . f f f f . . . . . . 
 . . . . f f f 2 2 f f f . . . . 
@@ -1473,11 +1493,5 @@ controller.moveSprite(heroe)
 scene.cameraFollowSprite(heroe)
 inicioNivel()
 game.onUpdate(function () {
-    for (let value of sprites.allOfKind(SpriteKind.Enemy)) {
-        if (value.isHittingTile(CollisionDirection.Left)) {
-            value.vx = Math.randomRange(30, 60)
-        } else if (value.isHittingTile(CollisionDirection.Right)) {
-            value.vx = Math.randomRange(-60, -30)
-        }
-    }
+	
 })
