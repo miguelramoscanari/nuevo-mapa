@@ -1469,7 +1469,7 @@ let gerra: Sprite = null
 let heroe: Sprite = null
 let nivel_actual = 0
 inicio()
-nivel_actual = 3
+nivel_actual = 0
 heroe = sprites.create(img`
 . . . . . . f f f f . . . . . . 
 . . . . f f f 2 2 f f f . . . . 
