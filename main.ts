@@ -176,6 +176,50 @@ e e e e . . e e e e e e e e e .
 . . . . . . . . . . . . . . . . 
 `
 }
+function nuevoIntegrante () {
+    jugador2 = sprites.create(img`
+. f f f . f f f f . f f f . 
+f f f f f c c c c f f f f f 
+f f f f b c c c c b f f f f 
+f f f c 3 c c c c 3 c f f f 
+. f 3 3 c c c c c c 3 3 f . 
+. f c c c c 4 4 c c c c f . 
+. f f c c 4 4 4 4 c c f f . 
+. f f f b f 4 4 f b f f f . 
+. f f 4 1 f d d f 1 4 f f . 
+. . f f d d d d d d f f . . 
+. . e f e 4 4 4 4 e f e . . 
+. e 4 f b 3 3 3 3 b f 4 e . 
+. 4 d f 3 3 3 3 3 3 c d 4 . 
+. 4 4 f 6 6 6 6 6 6 f 4 4 . 
+. . . . f f f f f f . . . . 
+. . . . f f . . f f . . . . 
+`, SpriteKind.Player)
+    controller.player2.moveSprite(jugador2)
+}
+function juegadorHeroe () {
+    heroe = sprites.create(img`
+. . . . . . f f f f . . . . . . 
+. . . . f f f 2 2 f f f . . . . 
+. . . f f f 2 2 2 2 f f f . . . 
+. . f f f e e e e e e f f f . . 
+. . f f e 2 2 2 2 2 2 e e f . . 
+. . f e 2 f f f f f f 2 e f . . 
+. . f f f f e e e e f f f f . . 
+. f f e f b f 4 4 f b f e f f . 
+. f e e 4 1 f d d f 1 4 e e f . 
+. . f f f f d d d d d e e f . . 
+. f d d d d f 4 4 4 e e f . . . 
+. f b b b b f 2 2 2 2 f 4 e . . 
+. f b b b b f 2 2 2 2 f d 4 . . 
+. . f c c f 4 5 5 4 4 f 4 4 . . 
+. . . f f f f f f f f . . . . . 
+. . . . . f f . . f f . . . . . 
+`, SpriteKind.Player)
+    heroe.say("vamos")
+    controller.moveSprite(heroe)
+    scene.cameraFollowSprite(heroe)
+}
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
     heroe,
@@ -467,6 +511,27 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSpr
     otherSprite.destroy()
     info.changeScoreBy(1)
 })
+controller.player2.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Pressed, function () {
+    projectile = sprites.createProjectileFromSide(img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . f f . . . . . 
+. . . . . . . . . f 1 f . . . . 
+. . . . . . . . . f 1 1 f . . . 
+. . . f f f f f f f 1 1 1 f . . 
+. . . f 1 1 1 1 1 1 1 1 1 1 f . 
+. . . f 1 1 1 1 1 1 1 1 1 f . . 
+. . . f 1 1 1 1 1 1 1 1 f . . . 
+. . . f f f f f f f 1 f . . . . 
+. . . . . . . . . f f . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`, 200, 0)
+    projectile.setPosition(jugador2.x + 10, jugador2.y)
+})
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprite.destroy()
     otherSprite.destroy()
@@ -568,6 +633,27 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     false
     )
 })
+controller.player2.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Pressed, function () {
+    proyectile2 = sprites.createProjectileFromSide(img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . f f . . . . . . . . . . 
+. . . f 1 f . . . . . . . . . . 
+. . f 1 1 f f f f f f f . . . . 
+. f 1 1 1 1 1 1 1 1 1 f . . . . 
+f 1 1 1 1 1 1 1 1 1 1 f . . . . 
+. f 1 1 1 1 1 1 1 1 1 f . . . . 
+. . f 1 1 f f f f f f f . . . . 
+. . . f 1 f . . . . . . . . . . 
+. . . . f f . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`, -200, 0)
+    proyectile2.setPosition(jugador2.x - -10, jugador2.y)
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.meta, function (sprite, otherSprite) {
     nivel_actual += 1
     inicioNivel()
@@ -587,6 +673,7 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonOrangeDepressed, fu
 })
 function inicioNivel () {
     heroe.setPosition(28, 7)
+    jugador2.setPosition(28, 7)
     if (nivel_actual == 0) {
         tiles.setTilemap(tiles.createTilemap(
             hex`10001000030000030303030303030303030303030300000000000005030505000000000303000000000000000300000000000703030303030303000003030303030000030307000000000000030500000000000303050000000000000000000000000503030303030303000000000003030303030305050500000000000000000000000303000000000000000300000000000503030300000003030003000007030303030307000000000303030300000000000303000000000005050503000000000503030000030700000000030000000303030300000300000000000000000000070303050c0303050500000000000000000003030303030303030303030303030006`,
@@ -1467,30 +1554,12 @@ let projectile: Sprite = null
 let proyectile2: Sprite = null
 let gerra: Sprite = null
 let heroe: Sprite = null
+let jugador2: Sprite = null
 let nivel_actual = 0
 inicio()
+nuevoIntegrante()
+juegadorHeroe()
 nivel_actual = 0
-heroe = sprites.create(img`
-. . . . . . f f f f . . . . . . 
-. . . . f f f 2 2 f f f . . . . 
-. . . f f f 2 2 2 2 f f f . . . 
-. . f f f e e e e e e f f f . . 
-. . f f e 2 2 2 2 2 2 e e f . . 
-. . f e 2 f f f f f f 2 e f . . 
-. . f f f f e e e e f f f f . . 
-. f f e f b f 4 4 f b f e f f . 
-. f e e 4 1 f d d f 1 4 e e f . 
-. . f f f f d d d d d e e f . . 
-. f d d d d f 4 4 4 e e f . . . 
-. f b b b b f 2 2 2 2 f 4 e . . 
-. f b b b b f 2 2 2 2 f d 4 . . 
-. . f c c f 4 5 5 4 4 f 4 4 . . 
-. . . f f f f f f f f . . . . . 
-. . . . . f f . . f f . . . . . 
-`, SpriteKind.Player)
-heroe.say("DORIS")
-controller.moveSprite(heroe)
-scene.cameraFollowSprite(heroe)
 inicioNivel()
 game.onUpdate(function () {
 	
